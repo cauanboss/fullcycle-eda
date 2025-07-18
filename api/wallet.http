@@ -1,0 +1,51 @@
+@client_id=513dacd2-331c-4125-9c9a-40e9f65fe51a
+
+# @name create_client
+POST http://localhost:8080/clients HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Johne Doe",
+    "email": "johne@j.com"
+}
+###
+
+# @name create_account
+POST http://localhost:8080/accounts HTTP/1.1
+Content-Type: application/json
+
+{
+    "client_id": "{{create_client.response.body.ID}}"
+}
+
+###
+
+POST http://localhost:8080/transactions HTTP/1.1
+Content-Type: application/json
+
+{
+    "account_id_from": "db27e434-a0c2-4386-b1a1-e3b3e23f3e3b",
+    "account_id_to": "e379c2c5-21b0-40ae-b112-f9a81f873966",
+    "amount": 50
+}
+
+###
+POST http://localhost:8080/transactions HTTP/1.1
+Content-Type: application/json
+
+{
+    "account_id_from": "e379c2c5-21b0-40ae-b112-f9a81f873966",
+    "account_id_to": "db27e434-a0c2-4386-b1a1-e3b3e23f3e3b",
+    "amount": 50
+}
+
+###
+
+POST http://localhost:8080/transactions HTTP/1.1
+Content-Type: application/json
+
+{
+    "account_id_from": "e379c2c5-21b0-40ae-b112-f9a81f873966",
+    "account_id_to": "db27e434-a0c2-4386-b1a1-e3b3e23f3e3b",
+    "amount": 50
+}

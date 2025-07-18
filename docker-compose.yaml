@@ -1,13 +1,30 @@
-version: '3'
+
 
 services:
-  goapp: 
-    build: .
+  microservice:
+    build: ./microservice
     platform: linux/amd64
     volumes:
-      - .:/app
+      - ./microservice:/app 
+    ports:
+      - 3003:3003
+    depends_on:
+      - zookeeper
+      - kafka
+      - control-center
+      - mysql
+  goapp: 
+    build: ./wallet
+    platform: linux/amd64
+    volumes:
+      - ./wallet:/app
     ports:
       - 8080:8080
+    depends_on:
+      - zookeeper
+      - kafka
+      - control-center
+      - mysql
 
   mysql:
     image: mysql:5.7
@@ -20,6 +37,7 @@ services:
       - 3306:3306
     volumes:
       - .docker/mysql:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:6.1.0"
