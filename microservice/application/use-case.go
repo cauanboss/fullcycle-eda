@@ -1,17 +1,25 @@
 package application
 
-import "microservice/domain/interfaces"
+import (
+	"microservice/domain/dto"
+	"microservice/domain/entity"
+	"microservice/domain/interfaces"
+)
 
 type BalanceUseCases struct {
-	CreateBalance interfaces.IBalanceUseCase
-	FindById      interfaces.IBalanceUseCase
-	Find          interfaces.IBalanceUseCase
+	CreateBalance interfaces.IBalanceUseCase[*entity.Balance, *dto.CreateBalanceInput]
+	FindById      interfaces.IBalanceUseCase[*dto.FindByIdOutput, *dto.FindByIdInput]
+	Find          interfaces.IBalanceUseCase[[]*entity.Balance, any]
 }
 
-func NewBalanceUseCases(createBalance, findById, find interfaces.IBalanceUseCase) *BalanceUseCases {
+func NewBalanceUseCases(
+	createBalance interfaces.IBalanceUseCase[*entity.Balance, *dto.CreateBalanceInput],
+	findByIdUseCase interfaces.IBalanceUseCase[*dto.FindByIdOutput, *dto.FindByIdInput],
+	findUseCase interfaces.IBalanceUseCase[[]*entity.Balance, any],
+) *BalanceUseCases {
 	return &BalanceUseCases{
 		CreateBalance: createBalance,
-		FindById:      findById,
-		Find:          find,
+		FindById:      findByIdUseCase,
+		Find:          findUseCase,
 	}
 }

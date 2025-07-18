@@ -16,9 +16,8 @@ func NewCreateBalanceUseCase(balanceRepository interfaces.IBalanceRepository) *C
 	}
 }
 
-func (c *CreateBalanceUseCase) Execute(input any) (any, error) {
-	createInput := input.(*dto.CreateBalanceInput)
-	balance := entity.NewBalance(createInput.AccountID, createInput.Balance)
+func (c *CreateBalanceUseCase) Execute(input *dto.CreateBalanceInput) (*entity.Balance, error) {
+	balance := entity.NewBalance(input.AccountID, input.Balance)
 	err := c.BalanceRepository.Save(balance)
 	if err != nil {
 		return nil, err

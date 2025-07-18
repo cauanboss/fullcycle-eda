@@ -1,5 +1,5 @@
 package interfaces
 
-type IBalanceUseCase interface {
-	Execute(input any) (any, error)
+type IBalanceUseCase[T any, I any] interface {
+	Execute(input I) (T, error)
 }

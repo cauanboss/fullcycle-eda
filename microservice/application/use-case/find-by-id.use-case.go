@@ -16,10 +16,10 @@ func NewFindByIdUseCase(balanceRepository interfaces.IBalanceRepository) *FindBy
 	}
 }
 
-func (c *FindByIdUseCase) Execute(input any) (any, error) {
+func (c *FindByIdUseCase) Execute(input *dto.FindByIdInput) (*dto.FindByIdOutput, error) {
 	fmt.Println("input", input)
-	findInput := input.(*dto.FindByIdInput)
-	balance, err := c.BalanceRepository.FindById(findInput.ID)
+
+	balance, err := c.BalanceRepository.FindById(input.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -29,6 +29,3 @@ func (c *FindByIdUseCase) Execute(input any) (any, error) {
 		Balance:   balance.Balance,
 	}, nil
 }
-
-// Verificar se implementa a interface
-var _ interfaces.IBalanceUseCase = (*FindByIdUseCase)(nil)
